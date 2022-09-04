@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true, // import * as React from 'react' →　import React from 'react'
+    "sourceMap": true, // error check
+    "lib": ["ES2020", "DOM"], // 최신 문법
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "target": "es5",
+    "strict": true, // type check를 엄격하게 하겠다 ) typescript의 경우 반드시 설정할 것
+    "resolveJsonModule": true, // import json파일 허용
+    "baseUrl": ".",
+    "paths": {
+      // ①import 편하게 하기위한 설정　②코드를 체크할때 참조하는 설정   ex)절대경로
+      "@hooks/*": ["hooks/*"],
+      "@components/*": ["components/*"],
+      "@layouts/*": ["layouts/*"],
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@store/*": ["store/*"],
+      "@typings/*": ["typings/*"],
+      "@services/*": ["services/*"],
+      "@reducers/*": ["reducers/*"]
+    }
+  }
+}
