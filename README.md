@@ -5,3 +5,8 @@ Global State: Global Store에 정의되어 프로젝트 어디에서나 접근�
 Server State: 서버로부터 받아오는 state
 
 redux : 2. Global State
+
+깊은 복사를 해야하는 이유
+
+부모컴포넌트에서 렌더링이 발생했을 경우 자식컴포넌트를 렌더링할지말지를 레퍼런스를
+비교한다. 즉 최적화가 가능하다.
