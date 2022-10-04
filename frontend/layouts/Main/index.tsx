@@ -1,16 +1,18 @@
-import React, { FC, useCallback, useState } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { Link, Route, Switch, useParams } from 'react-router-dom';
+import loadable from '@loadable/component';
 import { Breadcrumb, Layout, Menu as AntMenu } from 'antd';
 import { FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import gravatarUrl from 'gravatar-url';
 import 'antd/dist/antd.css';
 
 import { LogoDiv, ProfileImg, RightMenu } from './styles';
-import ProjectForm from '@components/ProjectForm';
+import Project from '@components/ProjectPage';
 import CreateProjectModal from '@components/CreateProjectModal';
-import User from '@pages/User';
 import UserProfile from '@components/UserProfile';
 import { IUser } from '@services/users/model';
+
+const User = loadable(() => import('@pages/User'));
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -19,16 +21,19 @@ const { SubMenu } = AntMenu;
 const Main: FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [onToggleProject, setOnToggleProject] = useState(false);
+
+  useEffect(() => {
+    setOnToggleProject(true);
+  });
 
   const onClickProfile = useCallback(() => {
     setShowProfile((prev) => !prev);
   }, []);
 
-  const onClickProject = useCallback((e: any) => {
-    console.log('test');
-  }, []);
-
   const onClickUser = useCallback((e: any) => {}, []);
+
+  const onClickTeam = useCallback((e: any) => {}, []);
 
   const userData: IUser = {
     id: 1,
@@ -53,8 +58,8 @@ const Main: FC = () => {
     <Layout style={{ minHeight: '100vh', marginTop: '15px', marginLeft: '10px' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <LogoDiv />
-        <AntMenu theme="dark" mode="inline">
-          <AntMenu.Item key="1" onClick={onClickProject} title="Project" icon={<PieChartOutlined />}>
+        <AntMenu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <AntMenu.Item key="1" title="Project" icon={<PieChartOutlined />}>
             Project
           </AntMenu.Item>
           <SubMenu title="User" icon={<UserOutlined />} key="2">
@@ -75,15 +80,16 @@ const Main: FC = () => {
             })}
           </SubMenu>
           <SubMenu title="Team" icon={<TeamOutlined />} key="3">
-            <AntMenu.Item key="3-team" onClick={onClickUser} title="Team">
+            <AntMenu.Item key="3-team" onClick={onClickTeam} title="Team">
               <Link key="teamlink" to={`/main/team/2`}>
                 <span style={{ marginLeft: 10 }}>Ant Project</span>
               </Link>
             </AntMenu.Item>
           </SubMenu>
-          <SubMenu title="File" icon={<FileOutlined />} key={4}></SubMenu>
+          <SubMenu title="File" icon={<FileOutlined />} key="4"></SubMenu>
         </AntMenu>
       </Sider>
+
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0, background: '#fff' }} />
         <Content style={{ margin: '0 16px' }}>
@@ -95,10 +101,11 @@ const Main: FC = () => {
             <Route path="/main/user/:id" component={User} />
             <Route path="/main/team/:id" />
           </Switch>
-          {/* <ProjectForm /> */}
+          {onToggleProject && <Project />}
         </Content>
         <Footer style={{ textAlign: 'center' }}> Created by Song</Footer>
       </Layout>
+
       <RightMenu>
         <span onClick={onClickProfile}>
           <ProfileImg src={gravatarUrl(userData.email, { size: 26, default: 'retro' })} alt={userData.nickname} />

@@ -42,21 +42,21 @@ const Login = () => {
       <Header>Node Planner</Header>
       <Form onSubmit={handleSubmit(submitForm)}>
         <Label id="email-label">
-          <span>아이디</span>
+          <span>ID</span>
           <div>
             <Input type="email" id="email" {...register('email')} />
             <Error>{errors.email?.message}</Error>
           </div>
         </Label>
         <Label id="password-label">
-          <span>비밀번호</span>
+          <span>PASSWORD</span>
           <div>
             <Input type="password" id="password" {...register('password')} />
             <Error>{errors.password?.message}</Error>
           </div>
         </Label>
         <Button type="submit" disabled={isSubmitting}>
-          로그인
+          LOGIN
         </Button>
         {/* <Error>{error && 'アカウントまたはパスワードを確認してください。'}</Error> */}
       </Form>
